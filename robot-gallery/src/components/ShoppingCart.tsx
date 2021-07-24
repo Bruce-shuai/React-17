@@ -1,5 +1,7 @@
 import React from 'react';
 import style from './ShoppingCart.module.css';
+import { FiShoppingCart } from 'react-icons/fi';
+
 
 interface Props {
 
@@ -17,14 +19,27 @@ class ShoppingCart extends React.Component<Props, State> {
     }
   }
 
+  // 有一个问题是为什么这里不能在函数前面加一个const呢？
+  handleClickBtn = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    console.log('e.target', e.target);   // target 描述的是事件发生的元素 
+    console.log('e.currentTarget', e.currentTarget); // currentTarget描述的是事件处理绑定的元素
+    
+    // 这里的用法有点高级了，目前还不怎么会呢！
+    if((e.target as HTMLElement).nodeName === 'SPAN') {
+      this.setState({
+        isOpen: !this.state.isOpen
+      })
+    }
+  }
+
   render() {
     return <div className={style.cartContainer}>
+
       <button className={style.button}
-        onClick={(e) => this.setState({
-          isOpen: !this.state.isOpen
-        })}   // 直接在这里添加事件,放的需要是函数才行
+        onClick={(e) => this.handleClickBtn(e)}   
       >
-        购物车 2 (件)
+        <FiShoppingCart />
+        <span>购物车 2 (件)</span>
       </button>
       <div className={style.cartDropDown}
         // 这里的样式书写还算细节
