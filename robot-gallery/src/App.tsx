@@ -3,6 +3,7 @@ import logo from './assets/imgs/logo.svg';
 import styles from './App.module.css';
 import robots from './mockdata/robots.json';  // 似乎还不能把mockdata文件夹放在src文件夹外，不然还访问不到
 import Robot from './components/Robot';
+import ShoppingCart from './components/ShoppingCart';
 function App() {
   return (
     <div className={styles.app}>
@@ -10,6 +11,7 @@ function App() {
         <img src={logo} className={styles.appLogo} alt="react-logo" />
         <h1>罗伯特吊炸天机器人</h1>
       </div>
+      <ShoppingCart />
       <div className={styles.robotList}>
         {robots.map(robot => {
           return <Robot id={robot.id} email={robot.email} name={robot.name}/>
