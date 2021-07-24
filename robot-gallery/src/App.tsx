@@ -10,7 +10,8 @@ interface Props {
 }
 
 interface State {
-  robotGallery: any[]
+  robotGallery: any[],
+  count: number
 }
 
 // 一下子就将函数组件转变为类组件了！(记录一下，有哪些变化)
@@ -19,7 +20,8 @@ class App extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
-      robotGallery: []
+      robotGallery: [],
+      count: 0
     }
   }
 
@@ -32,6 +34,20 @@ class App extends React.Component<Props, State> {
     }))
   }
 
+  addCount = () => {
+    this.setState((prev, next) => ({
+      count: prev.count + 1
+    }), () => {
+      console.log('count', this.state.count);
+    })
+    // console.log('count', this.state.count);
+    this.setState((prev, next) => ({
+      count: prev.count + 1
+    }), () => {
+      console.log('count', this.state.count);
+    })
+  }
+
   render() {
     return (
       <div className={styles.app}>
@@ -39,6 +55,11 @@ class App extends React.Component<Props, State> {
           <img src={logo} className={styles.appLogo} alt="react-logo" />
           <h1>罗伯特吊炸天机器人</h1>
         </div>
+        <button
+          onClick={this.addCount}
+        >
+          <span>count: {this.state.count}</span>
+        </button>
         <ShoppingCart />
         <div className={styles.robotList}>
           {this.state.robotGallery.map(robot => {
