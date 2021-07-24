@@ -1,0 +1,22 @@
+/* css 一定要好好学习才行 非常的重要！！ */
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #00bdab;
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 25px;
+  cursor: pointer;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  transition: transform 0.25s ease-out;
+}
+
+.cardContainer:hover {
+  transform: scale(1.05);
+}
+
+h1 {
+  font-family: "self-font";
+  font-size: 72px;
+}
