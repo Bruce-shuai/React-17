@@ -22,6 +22,12 @@
   }
 }
 
+h1 {
+  font-family: "self-font";
+  font-size: 72px;
+  font-weight: 200;
+}
+
 .robotList {
   width: 85vw;
   display: grid;
