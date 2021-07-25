@@ -4,8 +4,13 @@ import styles from './App.module.css';
 import robots from './mockdata/robots.json';  // 似乎还不能把mockdata文件夹放在src文件夹外，不然还访问不到
 import Robot from './components/Robot';
 import ShoppingCart from './components/ShoppingCart';
+
+interface Props {
+  username: string;
+}
+
 // 一下子就将函数组件转变为类组件了！(记录一下，有哪些变化)
-const App:React.FC = () => {
+const App:React.FC<Props> = (props) => {  // 这里既然要用到Props,则参数就要传props
 
   // 这是数组解构的方法
   const [count, setCount] = useState<number>(0);
@@ -48,6 +53,7 @@ const App:React.FC = () => {
       >
         <span>count: {count}</span>
       </button>
+      <div>{props.username}</div>
       <ShoppingCart />
       {
         (!error || error !== '') && <div>网站错误：{error}</div>
