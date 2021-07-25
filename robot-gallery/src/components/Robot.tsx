@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './Robot.module.css';
+import { NameContext } from '../index';
 // 创建一个接口
 interface RobotProps {
   id: number,
@@ -8,13 +9,22 @@ interface RobotProps {
 }
 
 const Robot : React.FC<RobotProps> = ({id, name, email}) => {
-  return <li className={style.cardContainer}>
-    {/* 挺好的，直接使用img标签 但是要注意这里的{}的使用 */}
-    {/* 这里的网站通过参数的不同能够获取不同的机器人图片(善于使用模板字符串) */}
-    <img src={`https://robohash.org/${id}`} alt="robot" />
-    <h2>{name}</h2>
-    <p>{email}</p>
-  </li>
+  return (
+    <NameContext.Consumer>
+      {
+        (value) => {
+         return <li className={style.cardContainer}>
+          {/* 挺好的，直接使用img标签 但是要注意这里的{}的使用 */}
+          {/* 这里的网站通过参数的不同能够获取不同的机器人图片(善于使用模板字符串) */}
+          <img src={`https://robohash.org/${id}`} alt="robot" />
+          <h2>{name}</h2>
+          <p>{email}</p>
+          <p>作者名称：{value}</p>
+        </li>
+        }
+      }
+    </NameContext.Consumer>
+  )
 }
 
 export default Robot;
