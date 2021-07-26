@@ -4,7 +4,7 @@ import styles from './App.module.css';
 import robots from './mockdata/robots.json';  // 似乎还不能把mockdata文件夹放在src文件夹外，不然还访问不到
 import Robot from './components/Robot';
 import ShoppingCart from './components/ShoppingCart';
-
+import FriendStatus from './components/FriendStatus';
 interface Props {
   username: string;
 }
@@ -17,6 +17,9 @@ const App:React.FC<Props> = (props) => {  // 这里既然要用到Props,则参�
   const [robotGallery, setRobotGallery] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+
+  const [flag, setFlag] = useState<boolean>(false);
+  const [id, setId] = useState<number>(0);
 
   useEffect(() => {
     document.title = `已点击${count}次`;
@@ -47,6 +50,20 @@ const App:React.FC<Props> = (props) => {  // 这里既然要用到Props,则参�
       <div className={styles.appHeader}>
         <img src={logo} className={styles.appLogo} alt="react-logo" />
         <h1>罗伯特吊炸天机器人</h1>
+      </div>
+      <div>
+        测试useEffect区域
+        <hr />
+          <button
+            onClick={() => {setFlag(!flag)}}  // 事件函数是不要返回值的...(做一个笔记)
+          >flag</button>
+          <button
+            onClick={() => {setId(id + 1)}}
+          >id++</button>
+          {
+            flag || <FriendStatus id={id}/>
+          }
+        <hr />
       </div>
       <button
         onClick={() => {setCount(count + 1)}}
