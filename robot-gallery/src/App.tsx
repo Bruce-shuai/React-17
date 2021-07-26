@@ -5,6 +5,8 @@ import robots from './mockdata/robots.json';  // 似乎还不能把mockdata文�
 import Robot from './components/Robot';
 import ShoppingCart from './components/ShoppingCart';
 import FriendStatus from './components/FriendStatus';
+import RefDemo from './components/RefDemo';
+
 interface Props {
   username: string;
 }
@@ -65,6 +67,7 @@ const App:React.FC<Props> = (props) => {  // 这里既然要用到Props,则参�
           }
         <hr />
       </div>
+      <RefDemo />
       <button
         onClick={() => {setCount(count + 1)}}
       >
