@@ -1,20 +1,18 @@
 import React, { useContext } from 'react';
 import style from './Robot.module.css';
 import { appContext, setStateAppContext } from '../AppState';
-import { withAddToCart } from './AddToCart'
-
+import { useAddToCart } from './AddToCart'
 // 创建一个接口
 interface RobotProps {
   id: number,
   name: string,
-  email: string,
-  addToCart: (id, name) => void
+  email: string
 }
 
-const RobotDiscount : React.FC<RobotProps> = ({id, name, email, addToCart}) => {
+const RobotDiscount : React.FC<RobotProps> = ({id, name, email}) => {
   const appState = useContext(appContext);
   let appSetState = useContext(setStateAppContext);
-
+  const addToCart = useAddToCart();
   return (
     <li className={style.cardContainer}>
       {/* 挺好的，直接使用img标签 但是要注意这里的{}的使用 */}
@@ -32,4 +30,4 @@ const RobotDiscount : React.FC<RobotProps> = ({id, name, email, addToCart}) => {
   )
 }
 
-export default withAddToCart(RobotDiscount);
+export default RobotDiscount;

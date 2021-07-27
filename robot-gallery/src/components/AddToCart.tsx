@@ -27,3 +27,19 @@ export const withAddToCart = (ChildComponent: React.ComponentType<RobotProps>) =
   }
 }
 
+
+
+export const useAddToCart = () => {
+  const appState = useContext(appContext);
+  let appSetState = useContext(setStateAppContext);
+
+  const addToCart = (id, name) => {
+    if (appSetState) {
+      appSetState({
+        ...appState,
+        shoppingCart: {items: [...appState.shoppingCart.items, {id: id, name: name}]}
+      })
+    }
+  }
+  return addToCart;
+}
