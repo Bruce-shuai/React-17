@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import style from './Robot.module.css';
-import { NameContext } from '../index';
+import { appContext, setStateAppContext } from '../AppState';
 // 创建一个接口
 interface RobotProps {
   id: number,
@@ -9,7 +9,17 @@ interface RobotProps {
 }
 
 const Robot : React.FC<RobotProps> = ({id, name, email}) => {
-  const value = useContext(NameContext);
+  const appState = useContext(appContext);
+  let appSetState = useContext(setStateAppContext);
+
+  const addToCart = () => {
+    if (appSetState) {
+      appSetState({
+        ...appState,
+        shoppingCart: {items: [...appState.shoppingCart.items, {id: id, name: name}]}
+      })
+    }
+  }
   return (
     <li className={style.cardContainer}>
       {/* 挺好的，直接使用img标签 但是要注意这里的{}的使用 */}
@@ -17,7 +27,12 @@ const Robot : React.FC<RobotProps> = ({id, name, email}) => {
       <img src={`https://robohash.org/${id}`} alt="robot" />
       <h2>{name}</h2>
       <p>{email}</p>
-      <p>作者名称：{value}</p>
+      <p>作者名称：{appState.username}</p>
+      <button
+        onClick={addToCart}
+      >
+        加入购物车
+      </button>
     </li>
   )
 }
