@@ -6,6 +6,7 @@ import Robot from './components/Robot';
 import ShoppingCart from './components/ShoppingCart';
 import FriendStatus from './components/FriendStatus';
 import RefDemo from './components/RefDemo';
+import RobotDiscount from './components/RobotDiscount';
 
 interface Props {
   username: string;
@@ -82,9 +83,11 @@ const App:React.FC<Props> = (props) => {  // 这里既然要用到Props,则参�
       {
         loading ? 
         <div className={styles.robotList}>
-          {robotGallery.map(robot => {
-            return <Robot id={robot.id} email={robot.email} name={robot.name}/>
-          })}
+          {robotGallery.map((robot, index) => (
+            index % 2 === 0 ? 
+            <RobotDiscount id={robot.id} email={robot.email} name={robot.name}/> :
+            <Robot id={robot.id} email={robot.email} name={robot.name}/>
+          ))}
         </div>
         :
         <div> Loading ...<img src={logo} /></div> 
