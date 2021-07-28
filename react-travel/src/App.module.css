@@ -2,74 +2,21 @@
   text-align: center;
 }
 
-.header {
-  background-color: #fff !important;
-  padding: 0 !important;
-}
-
-.header-top {
+.body {
+  width: 80%;
+  min-height: 70vh;
+  margin-top: 20px !important;
+  margin-left: auto;
+  margin-right: auto;
   background-color: rgba(0, 0, 0, 0.08);
-  margin: 0;
-  padding: 0 10%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 40px;
 }
 
-.header-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 550px;
-  margin: 0 9%;
+.body-sidemenu {
+  border: 2px solid #5390f0 !important;
 }
 
-.header-title {
-  color: #387eaa !important;
-  /* transform 好用啊！！ */
-  transform: translateY(5px);
-}
-
-.header-search {
-  width: 300px !important;
-  margin-left: 30px;
-}
-
-.header-bottom {
-  margin: 0 !important;
-  background-color: #4090f7 !important;
-  height: 40px !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.header-bottom-btn {
-  color: #fff !important;
-}
-
-.AppFooter {
-  transform: translateY(100px);
-}
-
-.footer-title {
-  height: 60px !important;
-}
-.App-logo {
-  width: 72px;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.body-carousel {
+  /* 左右居中大法感觉还挺好用的 */
+  margin-left: auto;
+  margin-right: auto;
 }
