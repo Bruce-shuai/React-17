@@ -1,0 +1,22 @@
+.body {
+  width: 80%;
+  min-height: 70vh;
+  margin-top: 20px !important;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.body-sidemenu {
+  border: 2px solid #5390f0 !important;
+}
+
+.body-carousel {
+  /* 左右居中大法感觉还挺好用的 */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.product {
+  margin-top: 40px !important;
+}
