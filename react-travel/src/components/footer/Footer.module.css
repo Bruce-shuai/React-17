@@ -1,3 +1,16 @@
 .footer-title {
   height: 60px !important;
 }
+
+.cooperative-enterprise {
+  display: flex;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.enterprise {
+  width: 240px;
+}

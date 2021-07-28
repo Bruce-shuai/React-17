@@ -1,0 +1,35 @@
+.product {
+  display: flex;
+  flex-direction: column;
+}
+
+.side-img {
+  width: 180px !important;
+  margin-left: 35px !important;
+  margin-right: 10px !important;
+}
+
+.big-img,
+.small-img {
+  margin-left: 8px !important;
+  margin-bottom: 10px !important;
+}
+
+.big-img {
+  width: 420px !important;
+  height: 275px;
+}
+
+.small-img {
+  width: 204px !important;
+  height: 110px;
+}
+
+.words {
+  width: 180px !important;
+}
+
+.product-collection {
+  display: flex;
+  flex-direction: row;
+}
