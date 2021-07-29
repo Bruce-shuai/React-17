@@ -2,6 +2,7 @@ import React from 'react';
 import logo from '../../assets/logo.svg';
 import styles from './Header.module.css';
 import { Layout, Typography, Input, Button, Dropdown, Menu } from 'antd';
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { GlobalOutlined } from '@ant-design/icons';
 export const Header:React.FC = () => {
   function handleMenuClick(e) {
@@ -13,6 +14,9 @@ export const Header:React.FC = () => {
     <Menu.Item key="2">英文</Menu.Item>
   </Menu>
 
+  const history = useHistory();
+  const location = useLocation();
+  const params = useParams();
   return (
     <>
     <div className={styles['header-top']}>
@@ -21,14 +25,14 @@ export const Header:React.FC = () => {
             <Dropdown.Button overlay={menu} icon={<GlobalOutlined />}>语言</Dropdown.Button>
           </div> 
           <Button.Group className={styles['header-top-right']}>
-            <Button>注册</Button>
-            <Button>登录</Button>
+            <Button onClick={() => history.push('register')}>注册</Button>
+            <Button onClick={() => history.push('signIn')}>登录</Button>
           </Button.Group>
         </div>
         <Layout.Header className={styles['header']}>
         <div className={styles['header-main']}>
-          <img src={logo} className={styles['App-logo']} alt="logo" /> 
-          <Typography.Title level={4} className={styles['header-title']}>携程旅游网</Typography.Title>
+          <img src={logo} className={styles['App-logo']} alt="logo" onClick={() => history.push('/')}/> 
+          <Typography.Title level={4} className={styles['header-title']} onClick={() => history.push('/')}>携程旅游网</Typography.Title>
           <Input.Search placeholder="请输入旅游目的地、主题、或关键字" className={styles['header-search']}/>
         </div> 
         </Layout.Header>
