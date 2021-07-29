@@ -3,29 +3,49 @@ import logo from '../../assets/logo.svg';
 import styles from './Header.module.css';
 import { Layout, Typography, Input, Button, Dropdown, Menu } from 'antd';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { store } from '../../redux/store';
 // import { useHistory, useLocation, useParams } from "react-router-dom";
 import { GlobalOutlined } from '@ant-design/icons';
-interface PropsType extends RouteComponentProps {
 
+interface State {
+  language: 'zh' | 'en';   
+  languageList: {name: string, language: string}[]
 }
-class HeaderComponent extends React.Component<PropsType> {
+
+class HeaderComponent extends React.Component<RouteComponentProps, State> {
+
+  constructor(props) {
+    super(props);
+    const storeState = store.getState();
+    // 这里是给state提供初始值
+    this.state = {
+      language: storeState.language,
+      languageList: storeState.languageList
+    }
+  }
+
   handleMenuClick(e) {
     console.log('click', e);
   }
   
-  menu =  <Menu onClick={this.handleMenuClick}>
-    <Menu.Item key="1">中文</Menu.Item>
-    <Menu.Item key="2">英文</Menu.Item>
-  </Menu>
   // history: { history } = this.props;
   render() {
+    // 这种声明变量，就在函数中声明才是对的，别在class中直接声明，有错误的
+    const menu =  <Menu onClick={this.handleMenuClick}>
+    {
+      this.state.languageList.map((item) => {
+        return <Menu.Item key={item.language}>{item.name}</Menu.Item>
+      })
+    }
+  </Menu>
+
     const {history} = this.props;   // 注意：使用解构 是在函数内部使用，直接在class是不能这么做的
     return (
       <>
       <div className={styles['header-top']}>
             <div className={styles['header-top-left']}>
               <Typography.Text>让旅行更有意义</Typography.Text>
-              <Dropdown.Button overlay={this.menu} icon={<GlobalOutlined />}>语言</Dropdown.Button>
+              <Dropdown.Button overlay={menu} icon={<GlobalOutlined />}>{this.state.language === 'zh' ? '中文' : 'English'}</Dropdown.Button>
             </div> 
             <Button.Group className={styles['header-top-right']}>
               <Button onClick={() => history.push('register')}>注册</Button>
