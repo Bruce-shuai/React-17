@@ -12,6 +12,11 @@ const defaultValue:defaultValueType = {
 }
 
 export default (state = defaultValue, action) => {    // 直接用匿名函数就行
-  const newState = state;
-  return newState
+  let newState;
+  if (action === 'change_language') {
+    // immutable 不能直接修改state
+    newState = {...state, language: action.payload}
+  }
+
+return state;
 }

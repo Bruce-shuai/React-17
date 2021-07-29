@@ -26,6 +26,8 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
 
   handleMenuClick(e) {
     console.log('click', e);
+    const action = {type: 'change_language', payload: e.key};
+    store.dispatch(action);
   }
   
   // history: { history } = this.props;
