@@ -1,4 +1,4 @@
-import { LanguageServiceMode } from '_typescript@4.3.5@typescript';
+import i18n from 'i18next';
 
 interface defaultValueType {
   language: 'zh' | 'en';    // 这里的ts类型定义就用得非常好，限定了只能在这两种字符串中选择一个
@@ -22,6 +22,7 @@ export default (state = defaultValue, action) => {    // 直接用匿名函数�
       
       return newState;
     case 'change_language':
+      i18n.changeLanguage(action.payload);
       newState = {...state, language: action.payload}
       return newState;
     default:

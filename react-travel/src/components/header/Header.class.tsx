@@ -6,13 +6,16 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { store } from '../../redux/store';
 // import { useHistory, useLocation, useParams } from "react-router-dom";
 import { GlobalOutlined } from '@ant-design/icons';
+import { withTranslation, WithTranslation } from 'react-i18next';
+
 
 interface State {
   language: 'zh' | 'en';   
   languageList: {name: string, language: string}[]
 }
 
-class HeaderComponent extends React.Component<RouteComponentProps, State> {
+// 这里的& 用得有点厉害
+class HeaderComponent extends React.Component<RouteComponentProps & WithTranslation, State> {
 
   constructor(props) {
     super(props);
@@ -50,8 +53,6 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
   render() {
 
     console.log('classState', this.state);
-    
-
 
     // 这种声明变量，就在函数中声明才是对的，别在class中直接声明，有错误的
     const menu =  <Menu onClick={this.handleMenuClick}>
@@ -63,47 +64,48 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
     <Menu.Item key='new'>添加新语言</Menu.Item>
   </Menu>
 
-    const {history} = this.props;   // 注意：使用解构 是在函数内部使用，直接在class是不能这么做的
+    const {history, t} = this.props;   // 注意：使用解构 是在函数内部使用，直接在class是不能这么做的
     return (
       <>
       <div className={styles['header-top']}>
             <div className={styles['header-top-left']}>
-              <Typography.Text>让旅行更有意义</Typography.Text>
+              <Typography.Text>{t('header.slogan')}</Typography.Text>
               <Dropdown.Button overlay={menu} icon={<GlobalOutlined />}>{this.state.language === 'zh' ? '中文' : 'English'}</Dropdown.Button>
             </div> 
             <Button.Group className={styles['header-top-right']}>
-              <Button onClick={() => history.push('register')}>注册</Button>
-              <Button onClick={() => history.push('signIn')}>登录</Button>
+              <Button onClick={() => history.push('register')}>{t('header.register')}</Button>
+              <Button onClick={() => history.push('signIn')}>{t('header.signin')}</Button>
             </Button.Group>
           </div>
           <Layout.Header className={styles['header']}>
           <div className={styles['header-main']}>
             <img src={logo} className={styles['App-logo']} alt="logo" onClick={() => history.push('/')}/> 
-            <Typography.Title level={4} className={styles['header-title']} onClick={() => history.push('/')}>携程旅游网</Typography.Title>
+            <Typography.Title level={4} className={styles['header-title']} onClick={() => history.push('/')}>{t('header.title')}</Typography.Title>
             <Input.Search placeholder="请输入旅游目的地、主题、或关键字" className={styles['header-search']}/>
           </div> 
           </Layout.Header>
           <Menu className={styles['header-bottom']} mode={'horizontal'}>
-            <Menu.Item className={styles['header-bottom-btn']}>旅游首页</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>周末游</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>跟团游</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>自由行</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>私家团</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>邮轮</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>酒店+景点</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>当地玩乐</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>主题游</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>定制游</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>游学</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>签证</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>企业游</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>高端游</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>爱玩户外</Menu.Item>
-            <Menu.Item className={styles['header-bottom-btn']}>保险</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.home_page')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.weekend')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.group')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.backpack')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.private')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.cruise')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.hotel')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.local')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.theme')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.custom')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.study')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.visa')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.enterprise')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.high_end')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.outdoor')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.insurance')}</Menu.Item>
           </Menu>
     </>
     )
   }
 }
 
-export const Header = withRouter(HeaderComponent);
+// 为什么是withTranslation 来嵌套withRouter 而不是 withRouter 来嵌套withTranslation呢？
+export const Header = withTranslation()(withRouter(HeaderComponent));
