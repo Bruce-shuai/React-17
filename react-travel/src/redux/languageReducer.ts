@@ -1,3 +1,5 @@
+import { LanguageServiceMode } from '_typescript@4.3.5@typescript';
+
 interface defaultValueType {
   language: 'zh' | 'en';    // 这里的ts类型定义就用得非常好，限定了只能在这两种字符串中选择一个
   languageList: {name: string, language: string}[]
@@ -12,11 +14,17 @@ const defaultValue:defaultValueType = {
 }
 
 export default (state = defaultValue, action) => {    // 直接用匿名函数就行
-  let newState;
-  if (action === 'change_language') {
-    // immutable 不能直接修改state
-    newState = {...state, language: action.payload}
+  let newState = state;
+  switch(action.type) {
+    case 'add_language':
+      newState = {...state, languageList:[...state.languageList, action.payload]}
+      console.log('newState', newState);
+      
+      return newState;
+    case 'change_language':
+      newState = {...state, language: action.payload}
+      return newState;
+    default:
+      return newState;
   }
-
-return state;
 }

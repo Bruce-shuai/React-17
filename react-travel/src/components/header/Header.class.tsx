@@ -22,16 +22,37 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
       language: storeState.language,
       languageList: storeState.languageList
     }
+    console.log('constructor');
+    
+    // 有一个问题，为什么订阅要放在constructor这个函数里？  尽管subscribe是放在constructor里的，但是多次执行subscribe，也不会执行constructor是怎么回事呢？
+    store.subscribe(() => {
+      const storeState = store.getState();
+      console.log('subscribe');
+      this.setState({
+        language: storeState.language,
+        languageList: storeState.languageList
+      })
+    })
   }
 
   handleMenuClick(e) {
     console.log('click', e);
-    const action = {type: 'change_language', payload: e.key};
-    store.dispatch(action);
+    if (e.key === 'new') {
+      const action = {type: 'add_language', payload: {name: 'new_language', language: 'new'}};
+      store.dispatch(action);
+    } else {
+      const action = {type: 'change_language', payload: e.key};
+      store.dispatch(action);
+    }
   }
   
   // history: { history } = this.props;
   render() {
+
+    console.log('classState', this.state);
+    
+
+
     // 这种声明变量，就在函数中声明才是对的，别在class中直接声明，有错误的
     const menu =  <Menu onClick={this.handleMenuClick}>
     {
@@ -39,6 +60,7 @@ class HeaderComponent extends React.Component<RouteComponentProps, State> {
         return <Menu.Item key={item.language}>{item.name}</Menu.Item>
       })
     }
+    <Menu.Item key='new'>添加新语言</Menu.Item>
   </Menu>
 
     const {history} = this.props;   // 注意：使用解构 是在函数内部使用，直接在class是不能这么做的
