@@ -1,4 +1,5 @@
 import i18n from 'i18next';
+import {ADD_LANGUAGE, CHANGE_LANGUAGE, LanguageActionTypes} from './languageActions';
 
 interface defaultValueType {
   language: 'zh' | 'en';    // 这里的ts类型定义就用得非常好，限定了只能在这两种字符串中选择一个
@@ -13,15 +14,14 @@ const defaultValue:defaultValueType = {
   ]
 }
 
-export default (state = defaultValue, action) => {    // 直接用匿名函数就行
+export default (state = defaultValue, action:LanguageActionTypes)=> {    // 直接用匿名函数就行
   let newState = state;
   switch(action.type) {
-    case 'add_language':
+    case ADD_LANGUAGE:
       newState = {...state, languageList:[...state.languageList, action.payload]}
       console.log('newState', newState);
-      
       return newState;
-    case 'change_language':
+    case CHANGE_LANGUAGE:
       i18n.changeLanguage(action.payload);
       newState = {...state, language: action.payload}
       return newState;

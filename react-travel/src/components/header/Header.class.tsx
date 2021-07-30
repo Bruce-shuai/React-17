@@ -7,7 +7,7 @@ import { store } from '../../redux/store';
 // import { useHistory, useLocation, useParams } from "react-router-dom";
 import { GlobalOutlined } from '@ant-design/icons';
 import { withTranslation, WithTranslation } from 'react-i18next';
-
+import {addLanguageActionCreator, changeLanguageActionCreator} from '../../redux/language/languageActions';
 
 interface State {
   language: 'zh' | 'en';   
@@ -41,10 +41,12 @@ class HeaderComponent extends React.Component<RouteComponentProps & WithTranslat
   handleMenuClick(e) {
     console.log('click', e);
     if (e.key === 'new') {
-      const action = {type: 'add_language', payload: {name: 'new_language', language: 'new'}};
+      // const action = {type: 'add_language', payload: {name: 'new_language', language: 'new'}};
+      const action = addLanguageActionCreator('new', 'new_language')
       store.dispatch(action);
     } else {
-      const action = {type: 'change_language', payload: e.key};
+      // const action = {type: 'change_language', payload: e.key};
+      const action = changeLanguageActionCreator(e.key)
       store.dispatch(action);
     }
   }
