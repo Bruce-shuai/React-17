@@ -2,59 +2,75 @@ import React from 'react';
 import logo from '../../assets/logo.svg';
 import styles from './Header.module.css';
 import { Layout, Typography, Input, Button, Dropdown, Menu } from 'antd';
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { GlobalOutlined } from '@ant-design/icons';
+import { useSelector } from '../../redux/hooks';
+import { useDispatch } from 'react-redux';
+import { addLanguageActionCreator, changeLanguageActionCreator } from '../../redux/language/languageActions';
+import { useTranslation } from 'react-i18next';
+
 export const Header:React.FC = () => {
+  const history = useHistory();
+  const language = useSelector((state) => state.language)
+  const languageList = useSelector((state) => state.languageList)
+  const {t} = useTranslation();
+  const dispatch = useDispatch();
+
   function handleMenuClick(e) {
-    console.log('click', e);
+    if (e.key === 'new') {
+      dispatch(addLanguageActionCreator('新语言', 'new-language'))
+    } else {
+      dispatch(changeLanguageActionCreator(e.key))
+    }
   }
   
   const menu =  <Menu onClick={handleMenuClick}>
-    <Menu.Item key="1">中文</Menu.Item>
-    <Menu.Item key="2">英文</Menu.Item>
+    {
+      languageList.map((item) => {
+        return <Menu.Item key={item.language}>{item.name}</Menu.Item>
+      })
+    }
+    <Menu.Item key='new'>添加新语言</Menu.Item>
   </Menu>
 
-  const history = useHistory();
-  const location = useLocation();
-  const params = useParams();
   return (
     <>
-    <div className={styles['header-top']}>
-          <div className={styles['header-top-left']}>
-            <Typography.Text>让旅行更有意义</Typography.Text>
-            <Dropdown.Button overlay={menu} icon={<GlobalOutlined />}>语言</Dropdown.Button>
+      <div className={styles['header-top']}>
+            <div className={styles['header-top-left']}>
+              <Typography.Text>{t('header.slogan')}</Typography.Text>
+              <Dropdown.Button overlay={menu} icon={<GlobalOutlined />}>{language === 'zh' ? '中文' : 'English'}</Dropdown.Button>
+            </div> 
+            <Button.Group className={styles['header-top-right']}>
+              <Button onClick={() => history.push('register')}>{t('header.register')}</Button>
+              <Button onClick={() => history.push('signIn')}>{t('header.signin')}</Button>
+            </Button.Group>
+          </div>
+          <Layout.Header className={styles['header']}>
+          <div className={styles['header-main']}>
+            <img src={logo} className={styles['App-logo']} alt="logo" onClick={() => history.push('/')}/> 
+            <Typography.Title level={4} className={styles['header-title']} onClick={() => history.push('/')}>{t('header.title')}</Typography.Title>
+            <Input.Search placeholder="请输入旅游目的地、主题、或关键字" className={styles['header-search']}/>
           </div> 
-          <Button.Group className={styles['header-top-right']}>
-            <Button onClick={() => history.push('register')}>注册</Button>
-            <Button onClick={() => history.push('signIn')}>登录</Button>
-          </Button.Group>
-        </div>
-        <Layout.Header className={styles['header']}>
-        <div className={styles['header-main']}>
-          <img src={logo} className={styles['App-logo']} alt="logo" onClick={() => history.push('/')}/> 
-          <Typography.Title level={4} className={styles['header-title']} onClick={() => history.push('/')}>携程旅游网</Typography.Title>
-          <Input.Search placeholder="请输入旅游目的地、主题、或关键字" className={styles['header-search']}/>
-        </div> 
-        </Layout.Header>
-        <Menu className={styles['header-bottom']} mode={'horizontal'}>
-          <Menu.Item className={styles['header-bottom-btn']}>旅游首页</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>周末游</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>跟团游</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>自由行</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>私家团</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>邮轮</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>酒店+景点</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>当地玩乐</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>主题游</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>定制游</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>游学</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>签证</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>企业游</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>高端游</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>爱玩户外</Menu.Item>
-          <Menu.Item className={styles['header-bottom-btn']}>保险</Menu.Item>
-        </Menu>
-  </>
+          </Layout.Header>
+          <Menu className={styles['header-bottom']} mode={'horizontal'}>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.home_page')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.weekend')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.group')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.backpack')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.private')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.cruise')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.hotel')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.local')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.theme')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.custom')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.study')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.visa')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.enterprise')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.high_end')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.outdoor')}</Menu.Item>
+            <Menu.Item className={styles['header-bottom-btn']}>{t('header.insurance')}</Menu.Item>
+          </Menu>
+    </>
   )
 }
 
