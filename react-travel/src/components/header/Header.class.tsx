@@ -13,8 +13,8 @@ import { Dispatch } from 'redux';
 // 这里的参数state 其实就是来自store的数据
 const mapStateToProps = (state: RootState) => {
   return {   // 返回的是一个对象
-    language: state.language,
-    languageList: state.languageList
+    language: state.language.language,
+    languageList: state.language.languageList
   }
 }
 
