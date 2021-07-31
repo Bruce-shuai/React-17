@@ -3,63 +3,57 @@ import logo from '../../assets/logo.svg';
 import styles from './Header.module.css';
 import { Layout, Typography, Input, Button, Dropdown, Menu } from 'antd';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { store } from '../../redux/store';
-// import { useHistory, useLocation, useParams } from "react-router-dom";
+import store, { RootState } from '../../redux/store';
 import { GlobalOutlined } from '@ant-design/icons';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import {addLanguageActionCreator, changeLanguageActionCreator} from '../../redux/language/languageActions';
+import { connect } from 'react-redux';   // 尽管connect没有用with开头，也是hoc
+import { Dispatch } from 'redux';
 
-interface State {
-  language: 'zh' | 'en';   
-  languageList: {name: string, language: string}[]
+// 这里的参数state 其实就是来自store的数据
+const mapStateToProps = (state: RootState) => {
+  return {   // 返回的是一个对象
+    language: state.language,
+    languageList: state.languageList
+  }
 }
 
-// 这里的& 用得有点厉害
-class HeaderComponent extends React.Component<RouteComponentProps & WithTranslation, State> {
-
-  constructor(props) {
-    super(props);
-    const storeState = store.getState();
-    // 这里是给state提供初始值
-    this.state = {
-      language: storeState.language,
-      languageList: storeState.languageList
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {   // 返回的是一个对象
+    changeLanguage: (language: 'zh' | 'en') => {
+      const action = changeLanguageActionCreator(language);
+      dispatch(action)
+    },
+    addLanguage: (language: string, name: string) => {
+      const action = addLanguageActionCreator(language, name);
+      dispatch(action);
     }
-    console.log('constructor');
-    
-    // 有一个问题，为什么订阅要放在constructor这个函数里？  尽管subscribe是放在constructor里的，但是多次执行subscribe，也不会执行constructor是怎么回事呢？
-    store.subscribe(() => {
-      const storeState = store.getState();
-      console.log('subscribe');
-      this.setState({
-        language: storeState.language,
-        languageList: storeState.languageList
-      })
-    })
   }
+}
+
+// 这里对于ts的掌握要有一定的深度才行啊
+type PropsType = RouteComponentProps &   // react-router 路由props类型
+WithTranslation &  // i18n props 类型
+ReturnType<typeof mapStateToProps> &     // redux store 隐射类型
+ReturnType<typeof mapDispatchToProps>;   // redux dispatch 映射类型 
+
+// 这里的& 用得有点厉害
+class HeaderComponent extends React.Component<PropsType> {
 
   handleMenuClick(e) {
     console.log('click', e);
     if (e.key === 'new') {
-      // const action = {type: 'add_language', payload: {name: 'new_language', language: 'new'}};
-      const action = addLanguageActionCreator('new', 'new_language')
-      store.dispatch(action);
+      this.props.addLanguage('new', 'new_language')  
     } else {
-      // const action = {type: 'change_language', payload: e.key};
-      const action = changeLanguageActionCreator(e.key)
-      store.dispatch(action);
+      this.props.changeLanguage(e.key)
     }
   }
-  
-  // history: { history } = this.props;
   render() {
 
     console.log('classState', this.state);
-
-    // 这种声明变量，就在函数中声明才是对的，别在class中直接声明，有错误的
     const menu =  <Menu onClick={this.handleMenuClick}>
     {
-      this.state.languageList.map((item) => {
+      this.props.languageList.map((item) => {
         return <Menu.Item key={item.language}>{item.name}</Menu.Item>
       })
     }
@@ -72,7 +66,7 @@ class HeaderComponent extends React.Component<RouteComponentProps & WithTranslat
       <div className={styles['header-top']}>
             <div className={styles['header-top-left']}>
               <Typography.Text>{t('header.slogan')}</Typography.Text>
-              <Dropdown.Button overlay={menu} icon={<GlobalOutlined />}>{this.state.language === 'zh' ? '中文' : 'English'}</Dropdown.Button>
+              <Dropdown.Button overlay={menu} icon={<GlobalOutlined />}>{this.props.language === 'zh' ? '中文' : 'English'}</Dropdown.Button>
             </div> 
             <Button.Group className={styles['header-top-right']}>
               <Button onClick={() => history.push('register')}>{t('header.register')}</Button>
@@ -110,4 +104,4 @@ class HeaderComponent extends React.Component<RouteComponentProps & WithTranslat
 }
 
 // 为什么是withTranslation 来嵌套withRouter 而不是 withRouter 来嵌套withTranslation呢？
-export const Header = withTranslation()(withRouter(HeaderComponent));
+export const Header =connect(mapStateToProps, mapDispatchToProps)(withTranslation()(withRouter(HeaderComponent))); 
