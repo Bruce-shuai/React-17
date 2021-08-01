@@ -6,11 +6,10 @@ import sideImg1 from '../../assets/images/sider_2019_02-04-2.png';
 import sideImg2 from '../../assets/images/sider_2019_02-04.png';
 import sideImg3 from '../../assets/images/sider_2019_12-09.png';
 import { withTranslation, WithTranslation } from 'react-i18next';
-import axios from 'axios';
 import { Spin } from 'antd';
 import {connect} from 'react-redux'
 import { RootState } from '../../redux/store';
-import { FetchRecommendProductsFailActionCreator, FetchRecommendProductsStartActionCreator, FetchRecommendProductsSuccessActionCreator } from '../../redux/recommendProducts/recommendProductsActions';
+import { giveMeDataActionCreator } from '../../redux/recommendProducts/recommendProductsActions';
 
 interface State {
   loading: boolean,
@@ -29,15 +28,7 @@ const mapStateToProps = (state: RootState) => {
 // 对于disptach 可以做类型定义也可以不做
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchStart: () => {
-      dispatch(FetchRecommendProductsStartActionCreator())
-    },
-    fetchSuccess: (data) => {
-      dispatch(FetchRecommendProductsSuccessActionCreator(data))
-    },
-    fetchFail: (error) => {
-      dispatch(FetchRecommendProductsFailActionCreator(error))
-    }
+   giveMedata: () => {dispatch(giveMeDataActionCreator())}
   }
 }
 
@@ -45,20 +36,8 @@ type PropsType = WithTranslation & ReturnType<typeof mapStateToProps> & ReturnTy
 
 class HomePageComponent extends React.Component<PropsType, State> {
 
-  async componentDidMount() {
-    this.props.fetchStart()
-    try {
-      const response = await axios.get('http://123.56.149.216:8080/api/productCollections', {
-        headers: {
-          "x-icode": "B451FB0CC5BDB4D5"
-        }
-      })
-      const {data} = await response;
-      this.props.fetchSuccess(data)
-    } catch(e) {
-      this.props.fetchFail(e.message)
-    }
-    
+  componentDidMount() {
+    this.props.giveMedata();  
   }
   render() {
     const {t, error, productList, loading} = this.props;   // es6解构要在函数里使用，别在class上直接这么用

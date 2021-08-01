@@ -1,6 +1,8 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import languageReducer from './language/languageReducer';
 import recommendProductsReducer from './recommendProducts/recommendProductsReducer';
+import thunk from 'redux-thunk'
+
 
 // 这里的rootReducer 是约定俗成的名称，最好都遵守
 const rootReducer = combineReducers({
@@ -8,7 +10,7 @@ const rootReducer = combineReducers({
   recommendProducts: recommendProductsReducer
 })
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 
 export type RootState = ReturnType<typeof store.getState> // typeof 的反向注入 ... 这个是真看不懂
