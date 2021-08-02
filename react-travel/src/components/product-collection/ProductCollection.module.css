@@ -17,12 +17,12 @@
 
 .big-img {
   width: 420px !important;
-  height: 275px;
+  height: 275px !important;
 }
 
 .small-img {
   width: 204px !important;
-  height: 110px;
+  height: 110px !important;
 }
 
 .words {

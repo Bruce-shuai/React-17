@@ -7,6 +7,11 @@ import {Header, Footer, ProductComment} from '../../components';
 import styles from './DetailPage.module.css';
 import { commentMockData } from './mockup';
 import { ProductIntro } from '../../components/productIntro';
+import { productDetailSlice } from '../../redux/productDetail/slice';
+import { useSelector } from '../../redux/hooks';
+import { useDispatch } from 'react-redux';
+
+
 // 给match定义一下参数的类型
 interface MatchParams {
   touristRouteId: string
@@ -14,24 +19,33 @@ interface MatchParams {
 
 export const DetailPage:React.FC<RouteComponentProps<MatchParams>> = (props) => {
   const { touristRouteId } = useParams<MatchParams>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [product, setProduct] = useState<any>(null);
+  // const [loading, setLoading] = useState<boolean>(true);
+  // const [error, setError] = useState<string | null>(null);
+  // const [product, setProduct] = useState<any>(null);
+
+  // 这里的回调竟然有返回值？ 可以复习一下箭头函数的知识了
+  const loading = useSelector(state => state.productDetail.loading);
+  const error = useSelector(state => state.productDetail.error);
+  const product = useSelector(state => state.productDetail.data);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
+      // setLoading(true);
+      // 注意，这里要加小括号
+      dispatch(productDetailSlice.actions.fetchStart());
       try {
         const { data } = await axios.get(`http://123.56.149.216:8080/api/touristRoutes/${touristRouteId}`, {
           headers: {
             "x-icode": "B451FB0CC5BDB4D5"
           }
         })
-        setProduct(data);
+        // setProduct(data);
+        dispatch(productDetailSlice.actions.fetchSuccess(data));
       } catch(e) {
-        setError(e.message);
-      } finally {
-        setLoading(false);
+        // setError(e.message);
+        dispatch(productDetailSlice.actions.fetchFail(e.message))
       }
     }
     fetchData();
