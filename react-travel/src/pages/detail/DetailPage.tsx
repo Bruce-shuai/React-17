@@ -32,8 +32,10 @@ export const DetailPage:React.FC<RouteComponentProps<MatchParams>> = (props) => 
 
   useEffect(() => {
     const fetchData = async () => {
-      // setLoading(true);
       // 注意，这里要加小括号
+      // 打印的是生成的action对象(有type 无payload(undefined))
+      console.log('fetchStart', productDetailSlice.actions.fetchStart());
+      
       dispatch(productDetailSlice.actions.fetchStart());
       try {
         const { data } = await axios.get(`http://123.56.149.216:8080/api/touristRoutes/${touristRouteId}`, {
@@ -41,10 +43,12 @@ export const DetailPage:React.FC<RouteComponentProps<MatchParams>> = (props) => 
             "x-icode": "B451FB0CC5BDB4D5"
           }
         })
-        // setProduct(data);
+        // 注意 这里的打印结果是一个action对象
+        // console.log('fetchSuccess(data)', productDetailSlice.actions.fetchSuccess(data));
+        // 说明productDetailSlice.actions.fetchSuccess会自动帮助我们生成一个action(有type，有payload的对象)
+        // 并且我估计，这里的actions.fetchSuceess 和 slice.ts文件中的reducers.fetchSuccess 的关系是，actions.fetchSuceess()生成一个action对象作为reducers.fetchSuccess的第二个参数
         dispatch(productDetailSlice.actions.fetchSuccess(data));
       } catch(e) {
-        // setError(e.message);
         dispatch(productDetailSlice.actions.fetchFail(e.message))
       }
     }
