@@ -7,7 +7,7 @@ import {Header, Footer, ProductComment} from '../../components';
 import styles from './DetailPage.module.css';
 import { commentMockData } from './mockup';
 import { ProductIntro } from '../../components/productIntro';
-import { productDetailSlice } from '../../redux/productDetail/slice';
+import { getProductDetail } from '../../redux/productDetail/slice';
 import { useSelector } from '../../redux/hooks';
 import { useDispatch } from 'react-redux';
 
@@ -31,28 +31,8 @@ export const DetailPage:React.FC<RouteComponentProps<MatchParams>> = (props) => 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      // 注意，这里要加小括号
-      // 打印的是生成的action对象(有type 无payload(undefined))
-      console.log('fetchStart', productDetailSlice.actions.fetchStart());
-      
-      dispatch(productDetailSlice.actions.fetchStart());
-      try {
-        const { data } = await axios.get(`http://123.56.149.216:8080/api/touristRoutes/${touristRouteId}`, {
-          headers: {
-            "x-icode": "B451FB0CC5BDB4D5"
-          }
-        })
-        // 注意 这里的打印结果是一个action对象
-        // console.log('fetchSuccess(data)', productDetailSlice.actions.fetchSuccess(data));
-        // 说明productDetailSlice.actions.fetchSuccess会自动帮助我们生成一个action(有type，有payload的对象)
-        // 并且我估计，这里的actions.fetchSuceess 和 slice.ts文件中的reducers.fetchSuccess 的关系是，actions.fetchSuceess()生成一个action对象作为reducers.fetchSuccess的第二个参数
-        dispatch(productDetailSlice.actions.fetchSuccess(data));
-      } catch(e) {
-        dispatch(productDetailSlice.actions.fetchFail(e.message))
-      }
-    }
-    fetchData();
+    // 注意： 这里不能在参数里写touristRouteId  这里跟作用域什么来着有关，有点忘了...
+    dispatch(getProductDetail(touristRouteId))
   }, [])
 
   if (error) {

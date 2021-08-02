@@ -4,7 +4,7 @@ import recommendProductsReducer from './recommendProducts/recommendProductsReduc
 import thunk from 'redux-thunk'
 import { actionLog } from './middleware/actionLog';
 import { productDetailSlice } from './productDetail/slice';
-import { combineReducers } from '@reduxjs/toolkit';   // 换成从这里来引入combineReducers
+import { combineReducers, configureStore } from '@reduxjs/toolkit';   // 换成从这里来引入combineReducers
 
 // 由于redux-toolkit 良好的兼容性，即使不使用configureStore只使用combineReducers(从@reduxjs/toolkit引入) 也可以实现redux和redux-toolkit的兼容
 
@@ -15,8 +15,12 @@ const rootReducer = combineReducers({
   productDetail: productDetailSlice.reducer
 })
 
-const store = createStore(rootReducer, applyMiddleware(thunk, actionLog));
-
+// const store = createStore(rootReducer, applyMiddleware(thunk, actionLog));
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(), actionLog],
+  devTools: true,
+})
 
 export type RootState = ReturnType<typeof store.getState> // typeof 的反向注入 ... 这个是真看不懂
 
