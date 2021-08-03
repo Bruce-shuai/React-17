@@ -56,7 +56,7 @@ export const Header:React.FC = () => {
     const onLogout = () => {
       dispatch(userSlice.actions.logOut())   // 这里的点要熟悉熟悉才行
       history.push('/');
-      window.location.reload(false);     // 刷新页面！！ 这一招很厉害啊
+      // window.location.reload(false);     // 刷新页面！！ 这一招很厉害啊  这里是不推荐这样使用的，会使redux数据不完整
     }
   return (
     <>
