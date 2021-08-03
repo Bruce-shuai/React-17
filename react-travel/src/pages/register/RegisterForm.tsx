@@ -1,9 +1,24 @@
 // 专门用一个组件来实现 表单注册
 import { Form, Input, Button, Checkbox } from 'antd';
-
+import axios from 'axios';
+import { useHistory } from 'react-router-dom'
 export const RegisterForm = () => {
-  const onFinish = (values: any) => {
+
+  const history = useHistory();
+
+  const onFinish = async (values: any) => {
     console.log('Success:', values);
+    // try {
+        await axios.post("http://123.56.149.216:8080/auth/register", {         
+          email: values.username,  // 来自antd Form组件的username
+          password: values.password,
+          // 血亏，写错一个单词，直接找半天bug
+          confirmPassword: values.confirm,
+        });
+      console.log('---------');
+      
+      history.push('/signIn/');   // 直接跳转到登录 
+    
   };
 
   const onFinishFailed = (errorInfo: any) => {

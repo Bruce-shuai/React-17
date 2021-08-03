@@ -27,11 +27,8 @@ export const searchProduct = createAsyncThunk(
       url += `&keyword=${paramaters.keywords}`;
     }
     const response = await axios.get(   // {data} 是获取的body的数据， response 取得的是所有的响应数据
-      url, {
-      headers: {
-        "x-icode": "B451FB0CC5BDB4D5"
-      }
-    });
+      url
+    );
   return {
     data: response.data,   // body 的数据
     pagination: JSON.parse(response.headers['x-pagination'])  // pagination的数据是从response的header里面获取到的(并且将字符串转化为js对象)

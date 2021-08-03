@@ -61,11 +61,7 @@ export const giveMeDataActionCreator = ():ThunkAction<void, RootState, unknown, 
   // this.props.fetchStart()
   dispatch(FetchRecommendProductsStartActionCreator());
   try {
-    const response = await axios.get('http://123.56.149.216:8080/api/productCollections', {
-      headers: {
-        "x-icode": "B451FB0CC5BDB4D5"
-      }
-    })
+    const response = await axios.get('http://123.56.149.216:8080/api/productCollections')
     const {data} = await response;
     // this.props.fetchSuccess(data)
     dispatch(FetchRecommendProductsSuccessActionCreator(data))

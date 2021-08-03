@@ -15,11 +15,7 @@ const initialState:ProductDetailState = {
 export const getProductDetail = createAsyncThunk(
   "productDetail/getProductDetail",
   async (touristRouteId: string, thunkAPI) => {
-    const { data } = await axios.get(`http://123.56.149.216:8080/api/touristRoutes/${touristRouteId}`, {
-      headers: {
-        "x-icode": "B451FB0CC5BDB4D5"
-      }
-    });
+    const { data } = await axios.get(`http://123.56.149.216:8080/api/touristRoutes/${touristRouteId}`);
   return data; 
   }
   // 自动会给我们提供一个 pending、project、fulfilled。 所以就不用自己再写什么try……catch了
