@@ -7,3 +7,4 @@ export * from './productIntro';
 export * from './productComment';
 export * from './productList';
 export * from './filter';
+export * from './paymentCard';
