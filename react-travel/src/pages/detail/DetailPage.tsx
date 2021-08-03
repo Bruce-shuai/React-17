@@ -10,7 +10,7 @@ import { ProductIntro } from '../../components/productIntro';
 import { getProductDetail } from '../../redux/productDetail/slice';
 import { useSelector } from '../../redux/hooks';
 import { useDispatch } from 'react-redux';
-
+import { MainLayout } from '../../layouts';
 
 // 给match定义一下参数的类型
 interface MatchParams {
@@ -49,8 +49,7 @@ export const DetailPage:React.FC<RouteComponentProps<MatchParams>> = (props) => 
 
 
 
-  return <>
-    <Header />
+  return <MainLayout>
       <div className={styles['page-content']}>
         {/* 为什么一刷新就报错不认识product.title？ */}
         {/* {console.log(product.title)} */}
@@ -146,6 +145,5 @@ export const DetailPage:React.FC<RouteComponentProps<MatchParams>> = (props) => 
           />
         </div>
       </div>
-    <Footer />
-  </>
+  </MainLayout>
 }

@@ -41,8 +41,9 @@ export const Header:React.FC = () => {
               <Dropdown.Button overlay={menu} icon={<GlobalOutlined />}>{language === 'zh' ? '中文' : 'English'}</Dropdown.Button>
             </div> 
             <Button.Group className={styles['header-top-right']}>
-              <Button onClick={() => history.push('register')}>{t('header.register')}</Button>
-              <Button onClick={() => history.push('signIn')}>{t('header.signin')}</Button>
+              {/* 路由跳转加 / 显示绝对路径，不加就报错 */}
+              <Button onClick={() => history.push('/register')}>{t('header.register')}</Button>
+              <Button onClick={() => history.push('/signIn')}>{t('header.signin')}</Button>
             </Button.Group>
           </div>
           <Layout.Header className={styles['header']}>

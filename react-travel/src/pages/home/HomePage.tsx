@@ -10,6 +10,8 @@ import { Spin } from 'antd';
 import {connect} from 'react-redux'
 import { RootState } from '../../redux/store';
 import { giveMeDataActionCreator } from '../../redux/recommendProducts/recommendProductsActions';
+import { MainLayout } from '../../layouts';
+
 
 interface State {
   loading: boolean,
@@ -53,8 +55,7 @@ class HomePageComponent extends React.Component<PropsType, State> {
       }}/>
     }
     return <>
-    <Header />
-      {/* 页面主题部分 */}
+      <MainLayout>
       <div className={styles.body}>
         <Row>
           <Col span={5} className={styles['body-sidemenu']}><SideMenu /></Col>
@@ -79,7 +80,7 @@ class HomePageComponent extends React.Component<PropsType, State> {
           <ProductCollection productList={productList[2].touristRoutes} sideSrc={sideImg3}/>
         </div>
       </div>
-      <Footer />    
+    </MainLayout>
   </>
   }
 }

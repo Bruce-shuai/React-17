@@ -5,6 +5,8 @@ import { searchProduct } from '../../redux/productSearch/slice';
 import { useSelector } from '../../redux/hooks';
 import { useDispatch } from 'react-redux';
 import { Spin } from 'antd';
+import { MainLayout } from '../../layouts';
+
 interface MatchParams {
   keywords: string
 }
@@ -39,8 +41,7 @@ export const SearchPage: React.FC = () => {
       minHeight: "100vh"
     }}/>
   }
-  return <>
-    <Header />
+  return <MainLayout>
     {/* 学习一下这些名词命名！！ */}
     <div>
       {/* 分类过滤器 */}
@@ -53,6 +54,5 @@ export const SearchPage: React.FC = () => {
         onPageChange={onPageChange}
       /></div>
     </div>
-    <Footer />
-  </>
+  </MainLayout>
 }
