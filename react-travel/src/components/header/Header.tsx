@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from '../../assets/logo.svg';
 import styles from './Header.module.css';
 import { Layout, Typography, Input, Button, Dropdown, Menu } from 'antd';
@@ -8,6 +8,14 @@ import { useSelector } from '../../redux/hooks';
 import { useDispatch } from 'react-redux';
 import { addLanguageActionCreator, changeLanguageActionCreator } from '../../redux/language/languageActions';
 import { useTranslation } from 'react-i18next';
+import jwt_decode, { JwtPayload as DefaultJwtPayload } from 'jwt-decode';
+import { userSlice } from '../../redux/user/slice';
+
+// 起别名，自己又来继承别名，这招很厉害
+interface JwtPayload extends DefaultJwtPayload {
+  username: string   // 对应用户名 email
+}
+
 
 export const Header:React.FC = () => {
   const history = useHistory();
@@ -15,6 +23,18 @@ export const Header:React.FC = () => {
   const languageList = useSelector((state) => state.language.languageList)
   const {t} = useTranslation();
   const dispatch = useDispatch();
+
+  const jwt = useSelector(state => state.user.token);   // 之后就要对jwt 进行解码了(解码插件：jwt-decode   npm install jwt-decode)
+  const [username, setUsername] = useState('');
+
+  // 解码jwt
+  useEffect(() => {
+    if (jwt) {
+      const token = jwt_decode<JwtPayload>(jwt);
+      setUsername(token.username);
+    }
+  }, [jwt])
+
 
   function handleMenuClick(e) {
     if (e.key === 'new') {
@@ -33,6 +53,11 @@ export const Header:React.FC = () => {
     <Menu.Item key='new'>添加新语言</Menu.Item>
   </Menu>
 
+    const onLogout = () => {
+      dispatch(userSlice.actions.logOut())   // 这里的点要熟悉熟悉才行
+      history.push('/');
+      window.location.reload(false);     // 刷新页面！！ 这一招很厉害啊
+    }
   return (
     <>
       <div className={styles['header-top']}>
@@ -40,11 +65,22 @@ export const Header:React.FC = () => {
               <Typography.Text>{t('header.slogan')}</Typography.Text>
               <Dropdown.Button overlay={menu} icon={<GlobalOutlined />}>{language === 'zh' ? '中文' : 'English'}</Dropdown.Button>
             </div> 
-            <Button.Group className={styles['header-top-right']}>
+            {jwt 
+              ? 
+              <Button.Group>
+                <span>{t("header.welcome")}
+                <Typography.Text strong>{username}</Typography.Text>
+                </span>
+                <Button>{t("header.shoppingCart")}</Button>
+                <Button onClick={onLogout}>{t("header.signOut")}</Button>
+              </Button.Group>
+              :
+              <Button.Group className={styles['header-top-right']}>
               {/* 路由跳转加 / 显示绝对路径，不加就报错 */}
-              <Button onClick={() => history.push('/register')}>{t('header.register')}</Button>
-              <Button onClick={() => history.push('/signIn')}>{t('header.signin')}</Button>
-            </Button.Group>
+                <Button onClick={() => history.push('/register')}>{t('header.register')}</Button>
+                <Button onClick={() => history.push('/signIn')}>{t('header.signin')}</Button>
+              </Button.Group>
+            }
           </div>
           <Layout.Header className={styles['header']}>
           <div className={styles['header-main']}>
