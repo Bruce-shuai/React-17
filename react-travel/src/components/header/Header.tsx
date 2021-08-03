@@ -49,7 +49,11 @@ export const Header:React.FC = () => {
           <div className={styles['header-main']}>
             <img src={logo} className={styles['App-logo']} alt="logo" onClick={() => history.push('/')}/> 
             <Typography.Title level={4} className={styles['header-title']} onClick={() => history.push('/')}>{t('header.title')}</Typography.Title>
-            <Input.Search placeholder="请输入旅游目的地、主题、或关键字" className={styles['header-search']}/>
+            <Input.Search 
+            placeholder="请输入旅游目的地、主题、或关键字" 
+            className={styles['header-search']}
+            onSearch={(keywords) => history.push('/search/' + keywords)}   // onSearch 事件有趣！ 这里是跳转到search页面
+            />
           </div> 
           </Layout.Header>
           <Menu className={styles['header-bottom']} mode={'horizontal'}>
