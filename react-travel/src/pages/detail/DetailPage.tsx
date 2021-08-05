@@ -18,6 +18,8 @@ interface MatchParams {
 }
 
 export const DetailPage:React.FC<RouteComponentProps<MatchParams>> = (props) => {
+  // console.log('props-----', props); 这里
+  
   const { touristRouteId } = useParams<MatchParams>();
   // const [loading, setLoading] = useState<boolean>(true);
   // const [error, setError] = useState<string | null>(null);

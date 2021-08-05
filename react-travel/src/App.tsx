@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './App.module.css';
 import { DetailPage, HomePage, RegisterPage, SearchPage, SignInPage, ShoppingCartPage } from './pages';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { useSelector } from './redux/hooks';
+import { useDispatch } from 'react-redux';
+import { getShoppingCart } from './redux/shoppingCart/slice'; 
 
 // 私有路由搭建
 const PrivateRoute = ({ component, isAuthenticated, ...rest}) => {

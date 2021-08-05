@@ -27,6 +27,9 @@ export const Header:React.FC = () => {
   const jwt = useSelector(state => state.user.token);   // 之后就要对jwt 进行解码了(解码插件：jwt-decode   npm install jwt-decode)
   const [username, setUsername] = useState('');
 
+  const shoppingCartItems = useSelector(state => state.shoppingCart.items)
+  const shoppingCartLoading = useSelector(state => state.shoppingCart.loading)
+
   // 解码jwt
   useEffect(() => {
     if (jwt) {
